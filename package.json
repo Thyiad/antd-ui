@@ -1,0 +1,26 @@
+{
+  "name": "@thyiad/antd-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thyiad/antd-ui.git"
+  },
+  "author": "Thyiad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Thyiad/antd-ui/issues"
+  },
+  "homepage": "https://github.com/Thyiad/antd-ui#readme",
+  "devDependencies": {
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.3.0",
+    "antd": "^4.8.4"
+  }
+}
