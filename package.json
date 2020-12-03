@@ -1,26 +1,38 @@
 {
   "name": "@thyiad/antd-ui",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.ts",
   "scripts": {
+    "prepare": "install-peers",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Thyiad/antd-ui.git"
+    "url": "git+https://github.com/Thyiad/thyiad-antd-ui.git"
   },
   "author": "Thyiad",
   "license": "MIT",
+  "files": [
+    "lib/**/*"
+  ],
   "bugs": {
-    "url": "https://github.com/Thyiad/antd-ui/issues"
+    "url": "https://github.com/Thyiad/thyiad-antd-ui/issues"
   },
-  "homepage": "https://github.com/Thyiad/antd-ui#readme",
+  "homepage": "https://github.com/Thyiad/thyiad-antd-ui#readme",
   "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "install-peers-cli": "^2.2.0",
     "typescript": "^4.1.2"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@ant-design/icons": "^4.3.0",
-    "antd": "^4.8.4"
+    "antd": "^4.8.5",
+    "bizcharts": "^4.0.15",
+    "lrz": "^4.9.41",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-router-dom": "^5.2.0"
   }
 }
