@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, CSSProperties } from 'react';
 import { createFromIconfontCN } from '@ant-design/icons';
 
 const Font = createFromIconfontCN({
@@ -18,9 +18,11 @@ export type IconTypes =
 
 export interface IconFontProps {
     type: IconTypes;
+    style?: CSSProperties;
+    className?: string;
 }
-const IconFont: FC<IconFontProps> = ({ type }: IconFontProps) => {
-    return <Font type={type} />;
+const IconFont: FC<IconFontProps> = ({ type, style, className }: IconFontProps) => {
+    return <Font type={type} className={className} style={style} />;
 };
 
 export default IconFont;
