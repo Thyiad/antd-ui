@@ -1,24 +1,23 @@
 import React, { FC, useRef } from 'react';
-import { Chart, G2, Interval, Tooltip } from 'bizcharts';
+import { Chart, G2, Point, Line, Area, Tooltip, Coordinate } from 'bizcharts';
 
-interface BarProps {
+interface RadarProps {
     width?: number;
     height?: number;
-    autoFit?: boolean;
     padding?: number[];
+    autoFit?: boolean;
     data: {
         x: string;
         y: number;
     }[];
     color?: string;
-    barWidth?: number;
     scale?: { [key in 'x' | 'y']?: { [key in 'min' | 'max']?: number } };
     onGetG2Instance?: (chartIns: G2.Chart) => void;
     toolTipItemTpl?: string;
 }
 
-const Bar: FC<BarProps> = (props: BarProps) => {
-    const { scale, width, height, padding, autoFit, data, color, barWidth, toolTipItemTpl, onGetG2Instance } = props;
+const Radar: FC<RadarProps> = (props: RadarProps) => {
+    const { width, height, padding, autoFit, data, scale, color, onGetG2Instance, toolTipItemTpl } = props;
     const chartRef = useRef<G2.Chart>();
 
     const itemTpl =
@@ -41,13 +40,15 @@ const Bar: FC<BarProps> = (props: BarProps) => {
                 onGetG2Instance && onGetG2Instance(chartIns);
             }}
         >
-            <Interval position="x*y" color={color} size={barWidth} />
-            <Tooltip itemTpl={itemTpl} shared={false} showTitle={false} showCrosshairs={false} />
+            <Coordinate type="polar" radius={0.8} />
+            <Tooltip shared={false} showTitle={false} itemTpl={itemTpl} />
+            <Point position="x*y" color={color} shape="circle" />
+            <Line position="x*y" color={color} size="2" />
         </Chart>
     );
 };
 
-Bar.defaultProps = {
+Radar.defaultProps = {
     height: 300,
     autoFit: true,
     padding: [30, 30, 30, 50],
@@ -55,4 +56,4 @@ Bar.defaultProps = {
     toolTipItemTpl: '{name}: {value}',
 };
 
-export default Bar;
+export default Radar;
