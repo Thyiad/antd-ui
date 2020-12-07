@@ -15,10 +15,11 @@ interface BarProps {
     scale?: { [key in 'x' | 'y']?: { [key in 'min' | 'max']?: number } };
     onGetG2Instance?: (chartIns: G2.Chart) => void;
     toolTipItemTpl?: string;
+    showTitle?: boolean;
 }
 
 const Bar: FC<BarProps> = (props: BarProps) => {
-    const { scale, width, height, padding, autoFit, data, color, barWidth, toolTipItemTpl, onGetG2Instance } = props;
+    const { scale, width, height, padding, autoFit, data, color, barWidth, toolTipItemTpl, onGetG2Instance, showTitle } = props;
     const chartRef = useRef<G2.Chart>();
 
     const itemTpl =
@@ -42,7 +43,7 @@ const Bar: FC<BarProps> = (props: BarProps) => {
             }}
         >
             <Interval position="x*y" color={color} size={barWidth} />
-            <Tooltip itemTpl={itemTpl} shared={false} showTitle={false} showCrosshairs={false} />
+            <Tooltip itemTpl={itemTpl} shared={false} showTitle={showTitle} showCrosshairs={false} />
         </Chart>
     );
 };

@@ -14,10 +14,11 @@ interface RadarProps {
     scale?: { [key in 'x' | 'y']?: { [key in 'min' | 'max']?: number } };
     onGetG2Instance?: (chartIns: G2.Chart) => void;
     toolTipItemTpl?: string;
+    showTitle?: boolean;
 }
 
 const Radar: FC<RadarProps> = (props: RadarProps) => {
-    const { width, height, padding, autoFit, data, scale, color, onGetG2Instance, toolTipItemTpl } = props;
+    const { width, height, padding, autoFit, data, scale, color, onGetG2Instance, toolTipItemTpl, showTitle } = props;
     const chartRef = useRef<G2.Chart>();
 
     const itemTpl =
@@ -41,7 +42,7 @@ const Radar: FC<RadarProps> = (props: RadarProps) => {
             }}
         >
             <Coordinate type="polar" radius={0.8} />
-            <Tooltip shared={false} showTitle={false} itemTpl={itemTpl} />
+            <Tooltip shared={false} showTitle={showTitle} itemTpl={itemTpl} />
             <Point position="x*y" color={color} shape="circle" />
             <Line position="x*y" color={color} size="2" />
         </Chart>

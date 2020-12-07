@@ -14,10 +14,11 @@ interface LineProps {
     scale?: { [key in 'x' | 'y']?: { [key in 'min' | 'max']?: number } };
     onGetG2Instance?: (chartIns: G2.Chart) => void;
     toolTipItemTpl?: string;
+    showTitle?: boolean;
 }
 
 const LineChart: FC<LineProps> = (props: LineProps) => {
-    const { width, height, padding, autoFit, data, color, scale, onGetG2Instance, toolTipItemTpl } = props;
+    const { width, height, padding, autoFit, data, color, scale, onGetG2Instance, toolTipItemTpl, showTitle } = props;
     const chartRef = useRef<G2.Chart>();
 
     const itemTpl =
@@ -42,8 +43,9 @@ const LineChart: FC<LineProps> = (props: LineProps) => {
         >
             <Line position="x*y" color={color} />
             <Point position="x*y" />
-            <Tooltip shared={false} itemTpl={itemTpl} showTitle={false} showCrosshairs lock triggerOn="hover" />
-            <Axis name="y" />
+            <Tooltip shared={false} itemTpl={itemTpl} showTitle={showTitle} showCrosshairs lock triggerOn="hover" />
+            <Axis name="y" label={{ autoHide: false }} />
+            <Axis name="x" label={{ autoHide: false }} />
         </Chart>
     );
 };
