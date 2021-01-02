@@ -24,6 +24,7 @@ interface IProps {
     selectSuc?: (file: RcFile) => void;
     uploadSuc?: (resData: any) => void;
     uploadErr?: () => void;
+    customBeforeUpload?: (file: RcFile) => boolean;
     showLoading?: boolean;
     /** 是否前端压缩
      * 默认启用压缩
@@ -47,6 +48,7 @@ const UploadBtn: React.FC<IProps> = (props: IProps) => {
         uploadErr,
         compressOption,
         selectSuc,
+        customBeforeUpload,
         uploadText,
         btnProps,
         showLoading,
@@ -99,6 +101,10 @@ const UploadBtn: React.FC<IProps> = (props: IProps) => {
                     message.error(`文件过大，不能大于${fileSize}M`);
                     return false;
                 }
+            }
+
+            if(customBeforeUpload && !customBeforeUpload(file)){
+                return false;
             }
 
             if (
