@@ -5,7 +5,7 @@ import { UploadFile, UploadChangeParam, RcFile } from 'antd/lib/upload/interface
 import lrz from 'lrz';
 import { dataURLtoFile, getBase64, getFileName } from './tool';
 import { Response } from './upload';
-import './index.scss';
+import './index.css';
 
 interface IProps {
     uploadUrl: string;
