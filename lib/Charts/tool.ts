@@ -59,8 +59,8 @@ export const downloadImage = (chart: G2.Chart, name = 'G2Chart'): void => {
                 u8arr[n] = bstr.charCodeAt(n);
             }
             const blobObj = new Blob([u8arr], { type: mime });
-            if (window.navigator.msSaveBlob) {
-                window.navigator.msSaveBlob(blobObj, filename);
+            if ((window.navigator as any).msSaveBlob) {
+                (window.navigator as any).msSaveBlob(blobObj, filename);
             } else {
                 link.addEventListener('click', () => {
                     link.download = filename;
