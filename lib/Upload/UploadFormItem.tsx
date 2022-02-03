@@ -302,7 +302,6 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                     action={uploadUrl}
                     headers={headers}
                     listType={listType}
-                    // @ts-ignore
                     fileList={fileList}
                     // @ts-ignore
                     onChange={onUploadChange}
