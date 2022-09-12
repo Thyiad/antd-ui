@@ -125,7 +125,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
         (file) => {
             const index = fileList.findIndex((item) => item.uid === file.uid);
             if (index >= 0) {
-                fileList.splice(0, 1);
+                fileList.splice(index, 1);
                 setFileList([...fileList]);
                 onChange && onChange(fileList.map((item) => item.url).filter((item) => item));
             }
@@ -141,7 +141,9 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                 return;
             }
             if (!isMulti) {
-                setFileList([params.file]);
+                if (params.file.status !== 'removed') {
+                    setFileList([params.file]);
+                }
                 if (
                     params.file.status === 'done' &&
                     params.file.response &&
@@ -158,7 +160,9 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                     }
                 }
             } else {
-                setFileList(params.fileList);
+                if (params.file.status !== 'removed') {
+                    setFileList(params.fileList);
+                }
                 if (
                     params.file.status === 'done' &&
                     params.file.response &&
