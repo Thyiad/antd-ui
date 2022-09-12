@@ -141,6 +141,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                 return;
             }
             if (!isMulti) {
+                setFileList([params.file]);
                 if (
                     params.file.status === 'done' &&
                     params.file.response &&
@@ -156,8 +157,8 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                         uploadErr();
                     }
                 }
-                setFileList([params.file]);
             } else {
+                setFileList(params.fileList);
                 if (
                     params.file.status === 'done' &&
                     params.file.response &&
@@ -172,13 +173,9 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                     const notUploadingList = params.fileList.filter(file => file.status !== 'uploading');
                     if (notUploadingList.length === params.fileList.length) {
                         const doneList = notUploadingList.filter(file => file.status === 'done')
+                        // @ts-ignore
                         const fileUrls: string[] = doneList.map(item => item.url).filter(item => !!item);
-                        setFileList(doneList);
                         onChange && onChange(fileUrls);
-                    }
-
-                    if (onChange) {
-                        onChange(Array.isArray(resData) ? resData[0] : resData);
                     }
                 } else if (params.file.status === 'error') {
                     if (uploadErr) {
