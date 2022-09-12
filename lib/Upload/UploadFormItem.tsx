@@ -144,9 +144,9 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                 if (
                     params.file.status === 'done' &&
                     params.file.response &&
-                    params.file.response.code === responseFormat.code
+                    params.file.response.code === responseFormat!.code
                 ) {
-                    const resData = params.file.response[responseFormat.data];
+                    const resData = params.file.response[responseFormat!.data];
                     if (onChange) {
                         onChange(Array.isArray(resData) ? resData[0] : resData);
                     }
@@ -158,22 +158,29 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                 }
                 setFileList([params.file]);
             } else {
-                const newFileList = params.fileList
-                    .map((file) => {
-                        if (file.response && file.response.code === responseFormat.code) {
-                            const resData = file.response[responseFormat.data];
-                            const serverUrl = Array.isArray(resData) ? resData[0] : resData;
-                            file.url = serverUrl;
-                        }
-                        return file;
-                    })
-                    .filter((file) => !!file.status);
-                // @ts-ignore
-                const fileUrls: string[] = newFileList.map((item) => item.url).filter((item) => !!item);
-                setFileList(newFileList);
+                if (
+                    params.file.status === 'done' &&
+                    params.file.response &&
+                    params.file.response.code === responseFormat!.code
+                ) {
+                    const resData = params.file.response[responseFormat!.data];
+                    const serverUrl = Array.isArray(resData) ? resData[0] : resData;
+                    params.file.url = serverUrl;
 
-                onChange && onChange(fileUrls);
-                if (params.file.status === 'error') {
+                    // 上传成功
+                    // 其他的都完毕后才onChange
+                    const notUploadingList = params.fileList.filter(file => file.status !== 'uploading');
+                    if (notUploadingList.length === params.fileList.length) {
+                        const doneList = notUploadingList.filter(file => file.status === 'done')
+                        const fileUrls: string[] = doneList.map(item => item.url).filter(item => !!item);
+                        setFileList(doneList);
+                        onChange && onChange(fileUrls);
+                    }
+
+                    if (onChange) {
+                        onChange(Array.isArray(resData) ? resData[0] : resData);
+                    }
+                } else if (params.file.status === 'error') {
                     if (uploadErr) {
                         uploadErr();
                     }
@@ -357,7 +364,7 @@ UploadFormItem.defaultProps = {
     showLoading: false,
     compressOption: {
         isCompress: true,
-        minSize: 1024*1024*0.1,
+        minSize: 1024 * 1024 * 0.1,
         extList: ['.jpg', '.jpeg', '.png', '.gif', '.bmp'],
     },
     hideUpload: false,
