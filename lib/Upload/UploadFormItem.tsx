@@ -48,6 +48,7 @@ interface IProps {
 
     /** muti向上抛数组，否则抛string */
     isMulti: boolean;
+    selectMulti?: boolean;
     listType: 'picture' | 'picture-card' | 'text';
     showUploadList?: boolean;
     hideUpload?: boolean;
@@ -84,6 +85,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
         showUploadList,
         withCredentials,
         responseFormat,
+        selectMulti,
     } = props;
 
     const [modalState, setModalState] = useState({
@@ -173,8 +175,8 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                     params.file.url = serverUrl;
 
                     // 上传成功
-                    // 其他的都完毕后才onChange
-                    const notUploadingList = params.fileList.filter(file => file.status !== 'uploading');
+                    // 其他的都完毕后才onChange：都有status并且status !== 'uploading'
+                    const notUploadingList = params.fileList.filter(file => file.status && file.status !== 'uploading');
                     if (notUploadingList.length === params.fileList.length) {
                         const doneList = notUploadingList.filter(file => file.status === 'done')
                         // @ts-ignore
@@ -320,6 +322,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                     onPreview={handlePreview}
                     onRemove={handleRemove}
                     withCredentials={withCredentials}
+                    multiple={selectMulti}
                 >
                     {btnDom}
                 </Upload>
@@ -353,6 +356,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
         modalState.previewTitle,
         modalState.previewImage,
         handleCancel,
+        selectMulti,
     ]);
 };
 
