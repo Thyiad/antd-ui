@@ -8,6 +8,7 @@ import { Response } from './upload';
 import './index.css';
 
 interface IProps {
+    className?: string;
     uploadUrl: string;
     uploadHeaders?: {
         accessKey?: string;
@@ -64,6 +65,7 @@ interface IProps {
 
 const UploadFormItem: React.FC<IProps> = (props) => {
     const {
+        className,
         uploadUrl,
         uploadHeaders,
         uploadParams,
@@ -307,7 +309,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
         return (
             <>
                 <Upload
-                    className={['upload-item', needHide && fileList.length > 0 ? 'hide-btn' : ''].join(' ')}
+                    className={['upload-item', needHide && fileList.length > 0 ? 'hide-btn' : '', className || ''].join(' ')}
                     disabled={hideUpload}
                     action={uploadUrl}
                     headers={headers}
@@ -338,6 +340,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
             </>
         );
     }, [
+        className,
         needHide,
         fileList,
         hideUpload,
