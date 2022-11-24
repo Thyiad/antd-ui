@@ -100,7 +100,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        let targetFileList = [];
+        let targetFileList: UploadFile<Response>[] = [];
         if (value) {
             targetFileList = (Array.isArray(value) ? value : [value]).map((url, index) => ({
                 uid: index.toString(),
@@ -131,10 +131,11 @@ const UploadFormItem: React.FC<IProps> = (props) => {
             if (index >= 0) {
                 fileList.splice(index, 1);
                 setFileList([...fileList]);
-                onChange && onChange(fileList.map((item) => item.url).filter((item) => item));
+                const fileUrls = fileList.map((item) => item.url).filter((item) => item) as string[];
+                onChange && onChange(isMulti ? fileUrls : fileUrls[0]);
             }
         },
-        [fileList, onChange],
+        [fileList, onChange, isMulti],
     );
 
     const onUploadChange = useCallback(
@@ -154,9 +155,8 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                     params.file.response.code === responseFormat!.code
                 ) {
                     const resData = params.file.response[responseFormat!.data];
-                    if (onChange) {
-                        onChange(Array.isArray(resData) ? resData[0] : resData);
-                    }
+                    onChange && onChange(Array.isArray(resData) ? resData[0] : resData)
+
                     params.file.url = Array.isArray(resData) ? resData[0] : resData;
                 } else if (params.file.status === 'error') {
                     if (uploadErr) {
@@ -183,7 +183,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                         const doneList = notUploadingList.filter(file => file.status === 'done')
                         // @ts-ignore
                         const fileUrls: string[] = doneList.map(item => item.url).filter(item => !!item);
-                        onChange && onChange(fileUrls);
+                        onChange && onChange(isMulti ? fileUrls : fileUrls[0]);
                     }
                 } else if (params.file.status === 'error') {
                     if (uploadErr) {
