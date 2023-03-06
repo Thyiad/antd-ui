@@ -51,6 +51,7 @@ export const downloadImage = (chart: G2.Chart, name = 'G2Chart'): void => {
         const dataURL = toDataURL(chart);
         if (window.Blob && window.URL && renderer !== 'svg') {
             const arr = dataURL.split(',');
+            // @ts-ignore
             const mime = arr[0].match(/:(.*?);/)[1];
             const bstr = atob(arr[1]);
             let n = bstr.length;
