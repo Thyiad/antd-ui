@@ -1,4 +1,4 @@
-import { removeCSS, updateCSS } from 'rc-util/lib/Dom/dynamicCSS';
+import { removeCSS, updateCSS } from './dynamicCSS';
 import React, { FC, useCallback, useEffect, useMemo } from 'react';
 import { Button, Modal } from 'antd';
 import './index.css';
