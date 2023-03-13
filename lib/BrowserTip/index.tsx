@@ -47,7 +47,7 @@ const defaultNeedShow = () => {
 
 const BrowserTip: FC<BrowerTipProps> = (props) => {
     const { needShow, tipContent, browserList } = props;
-    const [modal] = Modal.useModal();
+    const [modal, contextHolder] = Modal.useModal();
 
     const defaultTipContent = useMemo(() => {
         return (
@@ -111,7 +111,7 @@ const BrowserTip: FC<BrowerTipProps> = (props) => {
         };
     }, [needShow, tipContent, defaultTipContent]);
 
-    return <div></div>;
+    return <div>{contextHolder}</div>;
 };
 
 export default BrowserTip;
