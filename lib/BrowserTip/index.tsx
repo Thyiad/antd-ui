@@ -47,6 +47,7 @@ const defaultNeedShow = () => {
 
 const BrowserTip: FC<BrowerTipProps> = (props) => {
     const { needShow, tipContent, browserList } = props;
+    const [ modal ] = Modal.useModal();
 
     const defaultTipContent = useMemo(() => {
         return (
@@ -96,7 +97,7 @@ const BrowserTip: FC<BrowerTipProps> = (props) => {
         if (!isSupport) {
             const canShow = (needShow || defaultNeedShow)();
             if (canShow) {
-                Modal.info({
+                modal.info({
                     width: 660,
                     title: '升级提示',
                     content: tipContent || defaultTipContent,
