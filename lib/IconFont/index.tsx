@@ -31,9 +31,11 @@ export const iconFontKeys = [
     'iconqizhi',
     'iconlaba',
     'iconimage',
+    'iconpinggutiaomushu',
+    'icongengduo-baise',
 ] as const;
 
-export type IconTypes = typeof iconFontKeys[number];
+export type IconTypes = (typeof iconFontKeys)[number];
 
 type IconFontProps = ComponentProps<typeof Font> & { type: IconTypes };
 const IconFont: FC<IconFontProps> = (props: IconFontProps) => {

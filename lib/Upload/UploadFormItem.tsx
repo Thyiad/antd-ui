@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Button, Upload, message, Modal } from 'antd';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import { UploadFile, UploadChangeParam, RcFile } from 'antd/lib/upload/interface';
+import { UploadFile, UploadChangeParam, RcFile, ShowUploadListInterface } from 'antd/lib/upload/interface';
 import lrz from 'lrz';
 import { dataURLtoFile, getBase64, getFileName } from './tool';
 import { Response } from './upload';
@@ -51,7 +51,7 @@ interface IProps {
     isMulti: boolean;
     selectMulti?: boolean;
     listType: 'picture' | 'picture-card' | 'text';
-    showUploadList?: boolean;
+    showUploadList?: boolean | ShowUploadListInterface;
     hideUpload?: boolean;
     maxCount?: number;
     withCredentials?: boolean;
@@ -155,7 +155,7 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                     params.file.response.code === responseFormat!.code
                 ) {
                     const resData = params.file.response[responseFormat!.data];
-                    onChange && onChange(Array.isArray(resData) ? resData[0] : resData)
+                    onChange && onChange(Array.isArray(resData) ? resData[0] : resData);
 
                     params.file.url = Array.isArray(resData) ? resData[0] : resData;
                 } else if (params.file.status === 'error') {
@@ -178,11 +178,13 @@ const UploadFormItem: React.FC<IProps> = (props) => {
 
                     // 上传成功
                     // 其他的都完毕后才onChange：都有status并且status !== 'uploading'
-                    const notUploadingList = params.fileList.filter(file => file.status && file.status !== 'uploading');
+                    const notUploadingList = params.fileList.filter(
+                        (file) => file.status && file.status !== 'uploading',
+                    );
                     if (notUploadingList.length === params.fileList.length) {
-                        const doneList = notUploadingList.filter(file => file.status === 'done')
+                        const doneList = notUploadingList.filter((file) => file.status === 'done');
                         // @ts-ignore
-                        const fileUrls: string[] = doneList.map(item => item.url).filter(item => !!item);
+                        const fileUrls: string[] = doneList.map((item) => item.url).filter((item) => !!item);
                         onChange && onChange(isMulti ? fileUrls : fileUrls[0]);
                     }
                 } else if (params.file.status === 'error') {
@@ -309,7 +311,9 @@ const UploadFormItem: React.FC<IProps> = (props) => {
         return (
             <>
                 <Upload
-                    className={['upload-item', needHide && fileList.length > 0 ? 'hide-btn' : '', className || ''].join(' ')}
+                    className={['upload-item', needHide && fileList.length > 0 ? 'hide-btn' : '', className || ''].join(
+                        ' ',
+                    )}
                     disabled={hideUpload}
                     action={uploadUrl}
                     headers={headers}
@@ -335,7 +339,13 @@ const UploadFormItem: React.FC<IProps> = (props) => {
                     footer={null}
                     onCancel={handleCancel}
                 >
-                    <img alt="example" style={{ width: '100%' }} src={modalState.previewImage} />
+                    {['.png', '.jpg', '.jpeg', '.gif', '.ico'].some((ext) => modalState.previewTitle.endsWith(ext)) ? (
+                        <img alt="example" style={{ width: '100%' }} src={modalState.previewImage} />
+                    ) : (
+                        <a href={modalState.previewImage} target="_blank" rel="noreferrer">
+                            {modalState.previewTitle}
+                        </a>
+                    )}
                 </Modal>
             </>
         );

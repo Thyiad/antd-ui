@@ -109,7 +109,7 @@ function syncRealContainer(container, option) {
   // Find real container when not cached or cached container removed
   if (!cachedRealContainer || !contains(document, cachedRealContainer)) {
     var placeholderStyle = injectCSS('', option);
-    if(!placeholderStyle){
+    if (!placeholderStyle) {
       return;
     }
     var parentNode = placeholderStyle.parentNode;

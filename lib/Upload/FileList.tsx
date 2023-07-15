@@ -134,7 +134,7 @@ const FileList: React.FC<IProps> = (props) => {
                 }
             }
 
-            if(customBeforeUpload && !customBeforeUpload(file)){
+            if (customBeforeUpload && !customBeforeUpload(file)) {
                 return false;
             }
 
